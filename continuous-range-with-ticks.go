@@ -30,7 +30,7 @@ func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.Valu
 
 	var minindex int
 	mindiff := math.Inf(1)
-	for _, steptry := range []int{1, 2, 5} {
+	for _, steptry := range []int{1, 2, 5, 10} {
 		diff := math.Abs(normlength - float64(steptry))
 		log.Println(diff)
 		if diff < mindiff {
@@ -43,19 +43,15 @@ func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.Valu
 	newsteplength := float64(minindex) * factor
 	log.Println(newsteplength)
 
-	min := chart.Math.RoundDown(r.GetMin(), newsteplength)
-	max := chart.Math.RoundUp(r.GetMax(), newsteplength)
+	min := r.GetMin()
+	max := r.GetMax()
 
 	ticks := []chart.Tick{}
-	//ticks = append(ticks, chart.Tick{r.GetMin(), vf(r.GetMin())})
-	for actual := min; actual <= max; actual += newsteplength {
+	for actual := chart.Math.RoundUp(min, newsteplength); actual <= max; actual += newsteplength {
 		value := float64(actual)
-		ticks = append(ticks, chart.Tick{value, vf(value)})
+        ticks = append(ticks, chart.Tick{Value: value, Label: vf(value)})
 	}
-	r.SetMin(min)
-	r.SetMax(max)
 
-	//ticks = append(ticks, chart.Tick{r.GetMax(), vf(r.GetMax())})
 	return ticks
 }
 
