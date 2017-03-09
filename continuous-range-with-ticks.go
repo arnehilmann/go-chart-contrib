@@ -1,8 +1,6 @@
 package chartcontrib
 
 import (
-	"github.com/golang/freetype/truetype"
-	"golang.org/x/image/math/fixed"
 	"log"
 	"math"
 
@@ -17,30 +15,9 @@ type MyRange struct {
 }
 
 func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.ValueFormatter) []chart.Tick {
-	log.Println("MyRange.GetTicks called")
-	log.Println(r.GetDelta())
-	log.Println(r.GetDomain())
-	log.Println(r.GetMin())
-	log.Println(r.GetMax())
-
 	count := r.count
 	if count == 0 {
-		log.Println("count is zero")
-		log.Println("domain", r.GetDomain())
-		log.Println("font", defaults.GetFont().Name(truetype.NameIDFontFullName))
-		log.Println("size", defaults.GetFontSize())
-		log.Println("bounds", defaults.GetFont().Bounds(fixed.Int26_6(defaults.GetFontSize())))
-		font_height := float64(defaults.GetFont().Bounds(fixed.Int26_6(defaults.GetFontSize())).Max.Y)
-		log.Println("font height", font_height)
-
-		log.Println(float64(r.GetDomain()) / float64(font_height))
-		log.Println(float64(r.GetDomain()) / float64(font_height) / r.linespacing)
-		count = int(float64(r.GetDomain()) / float64(font_height) / r.linespacing)
-		log.Println("count", count)
-
 		extents := drawing.Extents(defaults.GetFont(), defaults.GetFontSize())
-		log.Println("ascent", extents.Ascent)
-		log.Println("descent", extents.Descent)
 		log.Println("height", extents.Height)
 
 		count = int(float64(r.GetDomain()) / (float64(extents.Height) * r.linespacing))
@@ -83,10 +60,14 @@ func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.Valu
 	return ticks
 }
 
+// ContinuousRangeWithTicksLinespacing renders "nice" ticks on a YAxis, depending on the linespacing parameter.
+// the actual linespacing depends on the min/max values and the height of the axis.
 func ContinuousRangeWithTicksLinespacing(linespacing float64) MyRange {
 	return MyRange{ContinuousRange: &chart.ContinuousRange{}, linespacing: linespacing}
 }
 
+// ContinuousRangeWithTicksCount renders "nice" ticks on a YAxis, depending on the count parameter.
+// the actual tick count depends on the min/max values of the axis.
 func ContinuousRangeWithTicksCount(count int) MyRange {
 	return MyRange{ContinuousRange: &chart.ContinuousRange{}, count: count}
 }
