@@ -174,11 +174,11 @@ func TestScale(t *testing.T) {
 		quantizer.Quantize(palettedImage, bounds, simage, image.ZP)
 
 		outGif.Image = append(outGif.Image, palettedImage)
-		outGif.Delay = append(outGif.Delay, 1)
+		outGif.Delay = append(outGif.Delay, 100)
 	}
 
 	// save to out.gif
-	filename := filepath.Join(os.TempDir(), "go-chart-contrib-test.all.png")
+	filename := filepath.Join(os.TempDir(), "go-chart-contrib-test.all.gif")
 	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
 	PanicIf(err)
 	defer f.Close()
