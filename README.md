@@ -1,6 +1,8 @@
 go-chart-contrib
 ================
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/arnehilmann/go-chart-contrib)](https://goreportcard.com/report/github.com/arnehilmann/go-chart-contrib)
+
 contribute some missing(?) features to the
 [github.com/wcharczuk/go-chart](https://github.com/wcharczuk/go-chart) library
 
