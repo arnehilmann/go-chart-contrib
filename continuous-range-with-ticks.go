@@ -8,13 +8,15 @@ import (
 	"github.com/wcharczuk/go-chart/drawing"
 )
 
-type MyRange struct {
+type myRange struct {
 	*chart.ContinuousRange
 	count       int
 	linespacing float64
 }
 
-func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.ValueFormatter) []chart.Tick {
+// GetTicks gets called during rendering of the chart.
+// It gets called when no explicit Ticks are defined, and before the default Tick Renderer
+func (r myRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.ValueFormatter) []chart.Tick {
 	count := r.count
 	if count == 0 {
 		extents := drawing.Extents(defaults.GetFont(), defaults.GetFontSize())
@@ -62,12 +64,12 @@ func (r MyRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.Valu
 
 // ContinuousRangeWithTicksLinespacing renders "nice" ticks on a YAxis, depending on the linespacing parameter.
 // the actual linespacing depends on the min/max values and the height of the axis.
-func ContinuousRangeWithTicksLinespacing(linespacing float64) MyRange {
-	return MyRange{ContinuousRange: &chart.ContinuousRange{}, linespacing: linespacing}
+func ContinuousRangeWithTicksLinespacing(linespacing float64) chart.Range {
+	return myRange{ContinuousRange: &chart.ContinuousRange{}, linespacing: linespacing}
 }
 
 // ContinuousRangeWithTicksCount renders "nice" ticks on a YAxis, depending on the count parameter.
 // the actual tick count depends on the min/max values of the axis.
-func ContinuousRangeWithTicksCount(count int) MyRange {
-	return MyRange{ContinuousRange: &chart.ContinuousRange{}, count: count}
+func ContinuousRangeWithTicksCount(count int) chart.Range {
+	return myRange{ContinuousRange: &chart.ContinuousRange{}, count: count}
 }
