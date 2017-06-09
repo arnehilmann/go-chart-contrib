@@ -6,6 +6,7 @@ import (
 
 	"github.com/wcharczuk/go-chart"
 	"github.com/wcharczuk/go-chart/drawing"
+    util "github.com/wcharczuk/go-chart/util"
 )
 
 type myRange struct {
@@ -54,7 +55,7 @@ func (r myRange) GetTicks(re chart.Renderer, defaults chart.Style, vf chart.Valu
 	max := r.GetMax()
 
 	ticks := []chart.Tick{}
-	for actual := chart.Math.RoundUp(min, newsteplength); actual <= max; actual += newsteplength {
+	for actual := util.Math.RoundUp(min, newsteplength); actual <= max; actual += newsteplength {
 		value := float64(actual)
 		ticks = append(ticks, chart.Tick{Value: value, Label: vf(value)})
 	}
