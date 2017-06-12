@@ -6,7 +6,7 @@ import (
 
 	"github.com/wcharczuk/go-chart"
 	"github.com/wcharczuk/go-chart/drawing"
-    util "github.com/wcharczuk/go-chart/util"
+	util "github.com/wcharczuk/go-chart/util"
 )
 
 type myRange struct {
